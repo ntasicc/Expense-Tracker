@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Expenses from "./components/DisplayExpenses/Expenses/Expenses";
 import NewExpense from "./components/CreateExpense/NewExpense/NewExpense";
+import InvalidInput from "./components/DisplayExpenses/Errors/InvalidInput";
 
 const demoExpenses = [
   {
@@ -26,6 +27,8 @@ const demoExpenses = [
 
 const App = () => {
   const [expenses, setExpenses] = useState(demoExpenses);
+  const [invalidInput, setInvalidInput] = useState(false);
+  const [warningMessage, setWarningMessage] = useState("");
 
   const addExpenseHandler = (expense) => {
     setExpenses((prevState) => {
@@ -33,9 +36,28 @@ const App = () => {
     });
   };
 
+  const invalidInputHandler = (message) => {
+    setWarningMessage(message);
+    setInvalidInput(true);
+  };
+
+  const closeWarningHandler = () => {
+    setInvalidInput(false);
+    setWarningMessage("");
+  };
+
   return (
     <div>
-      <NewExpense onAddExpense={addExpenseHandler} />
+      {invalidInput && (
+        <InvalidInput
+          message={warningMessage}
+          onCloseWarningHandler={closeWarningHandler}
+        />
+      )}
+      <NewExpense
+        onAddExpense={addExpenseHandler}
+        onInvalidInput={invalidInputHandler}
+      />
       <Expenses items={expenses} />
     </div>
   );
