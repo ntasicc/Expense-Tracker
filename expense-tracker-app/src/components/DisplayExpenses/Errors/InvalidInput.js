@@ -4,7 +4,7 @@ import Button from "../../UI/Button/Button";
 
 const InvalidInput = (props) => {
   return (
-    <div>
+    <>
       <div className={classes.backdrop} onClick={props.onConfirm} />
       <Card className={classes.modal}>
         <header className={classes.header}>
@@ -17,7 +17,7 @@ const InvalidInput = (props) => {
           <Button onClick={props.onCloseWarningHandler}>Okay</Button>
         </footer>
       </Card>
-    </div>
+    </>
   );
 };
 

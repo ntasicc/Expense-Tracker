@@ -47,7 +47,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <>
       {invalidInput && (
         <InvalidInput
           message={warningMessage}
@@ -59,7 +59,7 @@ const App = () => {
         onInvalidInput={invalidInputHandler}
       />
       <Expenses items={expenses} />
-    </div>
+    </>
   );
 };
 
