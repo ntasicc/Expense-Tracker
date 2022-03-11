@@ -34,6 +34,7 @@ const NewExpense = (props) => {
       <ExpenseForm
         onCancel={closeFormHandler}
         onSaveExpenseData={saveExpenseDataHandler}
+        onInvalidInput={props.onInvalidInput}
       />
     </div>
   );
