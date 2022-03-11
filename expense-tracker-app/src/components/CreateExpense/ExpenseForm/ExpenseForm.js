@@ -21,6 +21,14 @@ const ExpenseForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if (
+      enteredTitle.trim() === "" ||
+      enteredAmount.trim() === "" ||
+      enteredDate.trim() === ""
+    ) {
+      props.onInvalidInput("Please fill all fields");
+      return;
+    }
     const expenseData = {
       title: enteredTitle,
       amount: +enteredAmount,
