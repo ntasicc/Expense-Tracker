@@ -16,3 +16,13 @@
 .button:focus {
   outline: none;
 }
+
+button:disabled,
+button:focus:disabled,
+button:hover:disabled,
+button:active:disabled {
+  background: rgb(134, 92, 158);
+  border-color: rgb(134, 92, 158);
+  color: hsl(0, 0%, 100%);
+  cursor: not-allowed;
+}
