@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Expenses from "./components/DisplayExpenses/Expenses/Expenses";
 import NewExpense from "./components/CreateExpense/NewExpense/NewExpense";
 import InvalidInput from "./components/DisplayExpenses/Errors/InvalidInput";
+import Login from "./components/Login/Login";
+import MainHeader from "./components/MainHeader/MainHeader";
 
 const demoExpenses = [
   {
@@ -29,6 +31,14 @@ const App = () => {
   const [expenses, setExpenses] = useState(demoExpenses);
   const [invalidInput, setInvalidInput] = useState(false);
   const [warningMessage, setWarningMessage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("isLoggedIn");
+    if (storedUser === "1") {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const addExpenseHandler = (expense) => {
     setExpenses((prevState) => {
@@ -46,6 +56,16 @@ const App = () => {
     setWarningMessage("");
   };
 
+  const loginHandler = (email, password) => {
+    localStorage.setItem("isLoggedIn", "1");
+    setIsLoggedIn(true);
+  };
+
+  const logoutHandler = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
+
   return (
     <>
       {invalidInput && (
@@ -54,11 +74,21 @@ const App = () => {
           onCloseWarningHandler={closeWarningHandler}
         />
       )}
-      <NewExpense
-        onAddExpense={addExpenseHandler}
-        onInvalidInput={invalidInputHandler}
-      />
-      <Expenses items={expenses} />
+      <div>
+        <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+        <main>
+          {!isLoggedIn && <Login onLogin={loginHandler} />}
+          {isLoggedIn && (
+            <>
+              <NewExpense
+                onAddExpense={addExpenseHandler}
+                onInvalidInput={invalidInputHandler}
+              />
+              <Expenses items={expenses} />{" "}
+            </>
+          )}
+        </main>
+      </div>
     </>
   );
 };
